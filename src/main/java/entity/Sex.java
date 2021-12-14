@@ -7,10 +7,17 @@ public enum Sex {
 
     private String text;
     private int code;
-    private String shortText;
 
     Sex(String text, int code) {
         this.text = text;
         this.code = code;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public int getCode() {
+        return code;
     }
 }
