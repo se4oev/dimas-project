@@ -95,12 +95,12 @@ public class Patient {
         this.policy = policy;
     }
 
-    public FinSourse getFin_source() {
+    public FinSourse getFinSource() {
         return finSource;
     }
 
-    public void setFin_source(FinSourse fin_source) {
-        this.finSource = fin_source;
+    public void setFinSource(FinSourse finSource) {
+        this.finSource = finSource;
     }
 }
 
