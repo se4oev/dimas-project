@@ -1,5 +1,8 @@
 package ui;
 
+import db.DbConnector;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -33,10 +36,24 @@ public class Login {
     }
 
     private void onSignIn() {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Молодец");
-        alert.setContentText("Возьми пирожок с полки");
-        alert.showAndWait();
+        String login = loginField.getText();
+        String password = passwordField.getText();
+
+        DbConnector dbConnector = new DbConnector(login, password);
+        boolean connectionSuccessfull = dbConnector.openConnection();
+
+        if (connectionSuccessfull) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Слава Украине!");
+            alert.setContentText("Оно живое!");
+            alert.showAndWait();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Печаль");
+            alert.setContentText("Не удалось подключиться к БД");
+            alert.showAndWait();
+        }
+
     }
 
 }
