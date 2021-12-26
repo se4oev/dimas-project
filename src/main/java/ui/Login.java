@@ -1,14 +1,14 @@
 package ui;
 
 import db.DbConnector;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+
+import java.sql.Connection;
 
 /**
  * Created by karpenko on 15.12.2021.
@@ -40,7 +40,8 @@ public class Login {
         String password = passwordField.getText();
 
         DbConnector dbConnector = new DbConnector(login, password);
-        boolean connectionSuccessfull = dbConnector.openConnection();
+        boolean connectionSuccessfull = dbConnector.checkConnection();
+
 
         if (connectionSuccessfull) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
