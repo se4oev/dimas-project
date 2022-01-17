@@ -28,6 +28,9 @@ public class Login {
     private Button signInButton;
     @FXML
     private Button cancelButton;
+
+    private Runnable onClose = () -> {};
+
     @FXML
     void initialize() {
         cancelButton.setOnAction(e -> System.exit(0));
@@ -48,6 +51,7 @@ public class Login {
             alert.setTitle("Слава Украине!");
             alert.setContentText("Оно живое!");
             alert.showAndWait();
+            onClose.run();
         } else {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Печаль");
@@ -57,4 +61,7 @@ public class Login {
 
     }
 
+    public void setOnClose(Runnable onClose) {
+        this.onClose = onClose;
+    }
 }
