@@ -41,8 +41,9 @@ public class Login {
     private void onSignIn() {
         String login = loginField.getText();
         String password = passwordField.getText();
+        String path = pathField.getText();
 
-        DbConnector dbConnector = new DbConnector(login, password);
+        DbConnector dbConnector = new DbConnector(path, login, password);
         boolean connectionSuccessfull = dbConnector.checkConnection();
 
 
