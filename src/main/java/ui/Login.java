@@ -36,13 +36,16 @@ public class Login {
         cancelButton.setOnAction(e -> System.exit(0));
 
         signInButton.setOnAction(e -> onSignIn());
+
+        pathField.setPromptText("localhost:5432/base_name");
     }
 
     private void onSignIn() {
         String login = loginField.getText();
         String password = passwordField.getText();
+        String path = pathField.getText();
 
-        DbConnector dbConnector = new DbConnector(login, password);
+        DbConnector dbConnector = new DbConnector(path, login, password);
         boolean connectionSuccessfull = dbConnector.checkConnection();
 
 

@@ -8,10 +8,17 @@ public class DbConnector {
 
     private String login;
     private String password;
-    private String DB_URL = "jdbc:postgresql://127.0.0.1:5432/base";
+    private String DB_URL;
+    private static final String DB_BASE_URL = "jdbc:postgresql://";
+    private static final String DEFAULT_DB_PATH = "127.0.0.1:5432/base";
 
 
     public DbConnector(String login, String password) {
+        this(DEFAULT_DB_PATH, login, password);
+    }
+
+    public DbConnector(String path, String login, String password) {
+        this.DB_URL = DB_BASE_URL + path;
         this.login = login;
         this.password = password;
     }
