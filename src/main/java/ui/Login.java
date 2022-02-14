@@ -36,6 +36,8 @@ public class Login {
         cancelButton.setOnAction(e -> System.exit(0));
 
         signInButton.setOnAction(e -> onSignIn());
+
+        pathField.setPromptText("localhost:5432/base_name");
     }
 
     private void onSignIn() {

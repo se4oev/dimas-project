@@ -8,18 +8,17 @@ public class DbConnector {
 
     private String login;
     private String password;
-    private String DEFAULT_URL = "jdbc:postgresql://127.0.0.1:5432/base";
-    private String path;
-    private String DB_BASE_URL = 'jdbc:postgresql://';
+    private String DB_URL;
+    private static final String DB_BASE_URL = "jdbc:postgresql://";
+    private static final String DEFAULT_DB_PATH = "127.0.0.1:5432/base";
 
 
     public DbConnector(String login, String password) {
-        this.login = login;
-        this.password = password;
+        this(DEFAULT_DB_PATH, login, password);
     }
 
     public DbConnector(String path, String login, String password) {
-        this.path = path;
+        this.DB_URL = DB_BASE_URL + path;
         this.login = login;
         this.password = password;
     }
@@ -37,7 +36,7 @@ public class DbConnector {
         Connection connection = null;
 
         try {
-            connection = DriverManager.getConnection(DB_BASE_URL + path, login, password);
+            connection = DriverManager.getConnection(DB_URL, login, password);
         } catch (SQLException e) {
             System.out.println("Connection Failed");
             e.printStackTrace();
