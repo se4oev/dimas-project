@@ -8,11 +8,10 @@ public class ConnectionManager {
 
     private static ConnectionManager instance;
     private Connection connection;
-    private String login;
-    private String password;
+    private final String login;
+    private final String password;
     private final String url;
     private static final String DB_BASE_URL = "jdbc:postgresql://";
-    private static final String DEFAULT_DB_PATH = "127.0.0.1:5432/base";
 
     private ConnectionManager (String path, String login, String password){
         this.url = DB_BASE_URL + path;
@@ -22,14 +21,14 @@ public class ConnectionManager {
 
     public static ConnectionManager getInstance(){
        if (instance == null){
-           throw new AssertionError();
+           throw new AssertionError("ConnectionManager is not initialized");
        }
        return instance;
     }
 
     public synchronized static ConnectionManager init(String path, String login, String password){
         if(instance != null){
-            throw new AssertionError();
+            throw new AssertionError("ConnectionManager is already initialized");
         }
         instance = new ConnectionManager(path, login, password);
         return instance;
