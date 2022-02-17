@@ -6,21 +6,33 @@ import java.sql.SQLException;
 
 public class ConnectionManager {
 
+    private static ConnectionManager instance;
     private Connection connection;
     private String login;
     private String password;
-    private String url;
+    private final String url;
     private static final String DB_BASE_URL = "jdbc:postgresql://";
     private static final String DEFAULT_DB_PATH = "127.0.0.1:5432/base";
 
-    public ConnectionManager (String path, String login, String password){
+    private ConnectionManager (String path, String login, String password){
         this.url = DB_BASE_URL + path;
         this.login = login;
         this.password = password;
     }
 
-    public ConnectionManager (String login, String password){
-        this(DEFAULT_DB_PATH, login, password);
+    public static ConnectionManager getInstance(){
+       if (instance == null){
+           throw new AssertionError();
+       }
+       return instance;
+    }
+
+    public synchronized static ConnectionManager init(String path, String login, String password){
+        if(instance != null){
+            throw new AssertionError();
+        }
+        instance = new ConnectionManager(path, login, password);
+        return instance;
     }
 
     public void initConnection(){
@@ -32,7 +44,6 @@ public class ConnectionManager {
         }
 
         System.out.println("PostgreSQL JDBC Driver successfully connected");
-        Connection connection = null;
 
         try {
             connection = DriverManager.getConnection(url, login, password);
@@ -43,11 +54,9 @@ public class ConnectionManager {
     }
 
     public boolean isAlive(){
-        if (connection != null) {
-            System.out.println("You successfully connected to database now");
-            return true;
-        } else {
-            System.out.println("Failed to make connection to database");
+        try {
+            return connection != null && !connection.isClosed();
+        } catch (SQLException e) {
             return false;
         }
     }
