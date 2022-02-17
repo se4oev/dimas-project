@@ -13,6 +13,8 @@ public class DbConnector {
     private static final String DEFAULT_DB_PATH = "127.0.0.1:5432/base";
 
 
+
+
     public DbConnector(String login, String password) {
         this(DEFAULT_DB_PATH, login, password);
     }
