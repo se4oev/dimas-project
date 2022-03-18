@@ -1,11 +1,14 @@
 package ui;
 
 import db.DbConnector;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.sql.Connection;
@@ -33,11 +36,39 @@ public class Login {
 
     @FXML
     void initialize() {
-        cancelButton.setOnAction(e -> System.exit(0));
+        cancelButton.setOnAction(e -> onExit());
 
         signInButton.setOnAction(e -> onSignIn());
 
         pathField.setPromptText("localhost:5432/base_name");
+
+//        rootPane.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+//            @Override
+//            public void handle(KeyEvent keyEvent) {
+//                if (keyEvent.getCode() == KeyCode.ESCAPE)
+//                    onExit();
+//            }
+//        }); АНОНИМНЫЙ КЛАСС
+
+        rootPane.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.ESCAPE)
+                onExit();
+        });
+        // Лямбда
+
+        rootPane.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if(keyEvent.getCode() == KeyCode.ENTER){
+                    onSignIn();
+                }
+            }
+        });
+ //       rootPane.addEventFilter(KeyEvent.KEY_PRESSED, keyEvent -> {
+  //          if (keyEvent.getCode() == KeyCode.ENTER){
+  //              onSignIn();
+  //          }
+  //      }); ЛЯМБДА
     }
 
     private void onSignIn() {
@@ -66,5 +97,29 @@ public class Login {
 
     public void setOnClose(Runnable onClose) {
         this.onClose = onClose;
+    }
+
+    class ExitHandler implements EventHandler<KeyEvent> {
+
+        @Override
+        public void handle(KeyEvent keyEvent) {
+            if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                onExit();
+            }
+        }
+        // Внутренный класс
+    }
+
+    private void onExit() {
+        System.exit(0);
+    }
+
+    class LoginHandler implements EventHandler<KeyEvent>{
+        @Override
+        public void handle(KeyEvent keyEvent) {
+            if (keyEvent.getCode() == KeyCode.ENTER){
+                onSignIn();
+            }
+        }
     }
 }
